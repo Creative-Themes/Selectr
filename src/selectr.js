@@ -343,7 +343,7 @@
 		} else {
 			elementData.textContent = option.textContent // treat all as plain text
 		}
-		var opt = util.createElement('li', elementData)
+		var opt = util.createElement('div', elementData)
 
 		opt.idx = option.idx
 
@@ -423,7 +423,7 @@
 			class: 'selectr-options-container'
 		})
 
-		this.tree = util.createElement('ul', {
+		this.tree = util.createElement('div', {
 			class: 'selectr-options',
 			role: 'tree',
 			'aria-hidden': true,
@@ -476,7 +476,7 @@
 		}
 
 		if (this.config.taggable) {
-			var li = util.createElement('li', {
+			var li = util.createElement('div', {
 				class: 'input-tag'
 			})
 			this.input = util.createElement('input', {
@@ -487,7 +487,7 @@
 				autocorrect: 'off',
 				autocapitalize: 'off',
 				spellcheck: 'false',
-				role: 'textbox',
+				role: 'textbox'
 			})
 
 			li.appendChild(this.input)
@@ -567,13 +567,13 @@
 				this.el.children,
 				function(i, element) {
 					if (element.nodeName === 'OPTGROUP') {
-						group = util.createElement('ul', {
+						group = util.createElement('div', {
 							class: 'selectr-optgroup',
 							role: 'group',
 							html:
-								"<li class='selectr-optgroup--label'>" +
+								"<div class='selectr-optgroup--label'>" +
 								element.label +
-								'</li>'
+								'</div>'
 						})
 
 						util.each(
@@ -615,13 +615,13 @@
 							label: opt.text
 						})
 
-						group = util.createElement('ul', {
+						group = util.createElement('div', {
 							class: 'selectr-optgroup',
 							role: 'group',
 							html:
-								"<li class='selectr-optgroup--label'>" +
+								"<div class='selectr-optgroup--label'>" +
 								opt.text +
-								'</li>'
+								'</div>'
 						})
 
 						util.each(
@@ -681,7 +681,7 @@
 			)
 		}
 
-		this.setSelected(true)
+		this.setSelected(true, true)
 
 		var first
 		this.navIndex = 0
@@ -860,7 +860,7 @@
 		} else {
 			elementData.textContent = option.textContent
 		}
-		var tag = util.createElement('li', elementData)
+		var tag = util.createElement('div', elementData)
 		var btn = util.createElement('button', {
 			class: 'selectr-tag-remove',
 			type: 'button'
@@ -1143,7 +1143,7 @@
 			 * Set the main placeholder
 			 * @type {String}
 			 */
-			placeholder: 'Select an option...',
+			placeholder: 'Type to search',
 
 			/**
 			 * Allow the tagging feature
@@ -1155,14 +1155,14 @@
 			 * Set the tag input placeholder (@labikmartin, #21, #22)
 			 * @type {String}
 			 */
-			tagPlaceholder: 'Enter a tag...',
+			tagPlaceholder: 'Type to search',
 
 			messages: {
 				noResults: 'No results.',
 				noOptions: 'No options available.',
 				maxSelections: 'A maximum of {max} items can be selected.',
 				tagDuplicate: 'That tag is already in use.',
-				searchPlaceholder: 'Search options...'
+				searchPlaceholder: 'Type to search'
 			}
 		}
 
@@ -1732,7 +1732,7 @@
 									item.hasOwnProperty('selected') &&
 									item.selected === true
 								) {
-									this.select(j)
+									this.select(j, skipEventGeneration)
 								}
 								j++
 							},
@@ -1882,7 +1882,7 @@
 
 		this.emit('selectr.select', option)
 
-		if (skipEventGeneration) {
+		if (!skipEventGeneration) {
 			// fire native change event
 			if ('createEvent' in document) {
 				var evt = document.createEvent('HTMLEvents')
@@ -2051,12 +2051,11 @@
 					},
 					this
 				)
-			}
-			// User passed a single object to the method
-			// or Selectr passed an object from an array
-			else if (
+			} else if (
 				'[object Object]' === Object.prototype.toString.call(data)
 			) {
+				// User passed a single object to the method
+				// or Selectr passed an object from an array
 				if (checkDuplicate) {
 					var dupe = false
 
@@ -2659,3 +2658,4 @@
 
 	return Selectr
 })
+
