@@ -714,6 +714,7 @@
 		this.setPlaceholder()
 
 		this.selected.appendChild(this.placeEl)
+		this.selected.appendChild(util.createElement('i', {}))
 
 		// Disable if required
 		if (this.disabled) {
