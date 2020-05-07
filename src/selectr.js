@@ -1883,7 +1883,7 @@
 
 		this.emit('selectr.select', option)
 
-		if (!skipEventGeneration) {
+		if (!skipEventGeneration && !this.mobileDevice) {
 			// fire native change event
 			if ('createEvent' in document) {
 				var evt = document.createEvent('HTMLEvents')
@@ -2659,4 +2659,3 @@
 
 	return Selectr
 })
-
